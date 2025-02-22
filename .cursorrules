@@ -1,0 +1,62 @@
+# Project background
+
+# Instructions
+
+During you interaction with the user, if you find anything reusable in this project (e.g. version of a library, model name), especially about a fix to a mistake you made or a correction you received, you should take note in the `Lessons` section in the .cursorrules file so you will not make the same mistake again.
+
+You should also use the .cursorrules file as a scratchpad to organize your thoughts. Especially when you receive a new task, you should first review the content of the scratchpad, clear old different task if necessary, first explain the task, and plan the steps you need to take to complete the task. You can use todo markers to indicate the progress, e.g.
+[X] Task 1
+[ ] Task 2
+
+Also update the progress of the task in the Scratchpad when you finish a subtask.
+Especially when you finished a milestone, it will help to improve your depth of task accomplishment to use the scratchpad to reflect and plan.
+The goal is to help you maintain a big picture as well as the progress of the task. Always refer to the Scratchpad when you plan the next step.
+
+# Lessons
+
+## User Specified Lessons
+
+### General Rules
+
+- Write code for humans first, computers second
+- Avoid writing god classes, tight coupling, and premature optimization
+- Add complexity only when justified by requirements
+- Use type hints
+- Avoid deep nesting
+
+### Tech stack
+
+- uv for package management
+
+- loguru for logging
+
+### Structure Conventions
+
+- this is a monorepo, use absolute imports starting from the parent directory
+- use modules to organize code, organize by feature, not type
+- don't use generic names like model.py, service.py, etc.
+- Maintain flat structure where possible
+- Include info useful for debugging in the program output.
+- use docstrings for all functions and classes
+- Read the file before you try to edit it.
+- Use loguru for logging
+- If I have logs and comments, don't remove them they're there for a reason. You can remove comments if they don't reflect the code.
+
+### Database
+
+- Use mapped_column for all columns when doing data modeling work
+- Use standard libraries first or the ones in the pyproject.toml file before trying to install new ones
+- Explicit error handling, logging at where it's handled
+- NEVER use Enums for database columns - enforce in code but not at DB level
+- Use SQLAlchemy's nullable=True instead of Optional in type hints for DB models
+- Use string quotes for FK relationships to avoid circular imports
+- Use Postgres native types when available (e.g., ARRAY(Text) instead of JSON for string arrays)
+- Use Text for unlimited text fields, String(length) only when length constraint needed
+- Avoid type hints in relationship() declarations to prevent circular imports and Alembic migration issues
+- Use string-based class references in relationship() (e.g., "Source" instead of Source)
+
+## Cursor learned
+
+- Add debug information to stderr while keeping the main output clean in stdout for better pipeline integration
+
+# Scratchpad

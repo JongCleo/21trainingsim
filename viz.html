@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>21 Savage Ad-lib Visualizer</title>
+    <style>
+        .timeline {
+            position: relative;
+            height: 50px;
+            background: #f0f0f0;
+            margin: 20px;
+        }
+        .marker {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: red;
+            border-radius: 50%;
+            transform: translateY(20px);
+        }
+        .current-time {
+            position: absolute;
+            width: 2px;
+            height: 50px;
+            background: blue;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <audio id="audio" controls>
+        <source src="data/runnin.mp3" type="audio/mpeg">
+    </audio>
+    <div class="timeline" id="timeline"></div>
+    <div id="current-adlib"></div>
+
+    <script>
+        fetch("data/adlibs.json")
+            .then((response) => response.json())
+            .then(adlibs => {
+                const timeline = document.getElementById('timeline');
+                const audio = document.getElementById('audio');
+                const currentAdlib = document.getElementById('current-adlib');
+                
+                // Total duration in seconds (3:16 = 196 seconds)
+                const totalDuration = 196;
+                
+                // Add markers
+                adlibs.forEach(adlib => {
+                    const marker = document.createElement('div');
+                    marker.className = 'marker';
+                    marker.style.left = `${(adlib.time / totalDuration) * 100}%`;
+                    marker.title = `${adlib.time}s: ${adlib.text}`;
+                    timeline.appendChild(marker);
+                });
+                
+                // Add current time indicator
+                const currentTime = document.createElement('div');
+                currentTime.className = 'current-time';
+                timeline.appendChild(currentTime);
+                
+                audio.addEventListener('timeupdate', () => {
+                    const position = (audio.currentTime / totalDuration) * 100;
+                    currentTime.style.left = `${position}%`;
+                    
+                    // Show current/upcoming adlib
+                    const currentAdlibs = adlibs.filter(a => 
+                        Math.abs(a.time - audio.currentTime) < 1
+                    );
+                    if (currentAdlibs.length > 0) {
+                        currentAdlib.textContent = currentAdlibs.map(a => a.text).join(', ');
+                    } else {
+                        currentAdlib.textContent = '';
+                    }
+                });
+            });
+    </script>
+</body>
+</html>
