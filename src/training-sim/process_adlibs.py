@@ -5,6 +5,12 @@ from pathlib import Path
 
 
 @dataclass
+class LrcLine:
+    timestamp: float
+    text: str
+
+
+@dataclass
 class AdLib:
     timestamp: float  # in seconds
     text: str
@@ -26,8 +32,8 @@ def extract_adlibs(lrc_file: Path) -> list[AdLib]:
         r"\(straight up\)",
     ]
 
-    adlibs = []
-
+    # First pass: collect all lines with timestamps
+    lines: list[LrcLine] = []
     with open(lrc_file, "r", encoding="utf-8") as f:
         for line in f:
             line = line.strip()
@@ -47,17 +53,28 @@ def extract_adlibs(lrc_file: Path) -> list[AdLib]:
                 continue
 
             timestamp = parse_timestamp(timestamp_match.group(0))
+            text = line[timestamp_match.end() :].strip()
+            lines.append(LrcLine(timestamp, text))
 
-            # Look for ad-libs in parentheses
-            for pattern in adlib_patterns:
-                matches = re.findall(pattern, line)
-                if matches:
-                    for match in matches:
-                        # Remove parentheses
-                        adlib_text = match[1:-1]
-                        adlibs.append(AdLib(timestamp, adlib_text))
+    # Second pass: find adlibs and use next line's timestamp
+    adlibs = []
+    for i, line in enumerate(lines):
+        for pattern in adlib_patterns:
+            matches = re.findall(pattern, line.text)
+            if matches:
+                for match in matches:
+                    # Get timestamp from next line if available, otherwise use current line
+                    next_timestamp = (
+                        lines[i + 1].timestamp if i + 1 < len(lines) else line.timestamp
+                    )
+                    # Subtract a small offset to account for the delay
+                    timestamp = max(0, next_timestamp - 0.5)
 
-    return adlibs
+                    # Remove parentheses
+                    adlib_text = match[1:-1]
+                    adlibs.append(AdLib(timestamp, adlib_text))
+
+    return sorted(adlibs, key=lambda x: x.timestamp)
 
 
 def main():

@@ -28,15 +28,21 @@
 </head>
 <body>
     <audio id="audio" controls>
-        <source src="data/runnin.mp3" type="audio/mpeg">
+        <source src="http://localhost:8000/data/running.mp3" type="audio/mpeg">
     </audio>
     <div class="timeline" id="timeline"></div>
     <div id="current-adlib"></div>
 
     <script>
-        fetch("data/adlibs.json")
-            .then((response) => response.json())
-            .then(adlibs => {
+        // Load adlibs from JSON file
+        async function initializeVisualizer() {
+            try {
+                const response = await fetch('http://localhost:8000/data/adlibs.json');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const adlibs = await response.json();
+                
                 const timeline = document.getElementById('timeline');
                 const audio = document.getElementById('audio');
                 const currentAdlib = document.getElementById('current-adlib');
@@ -72,7 +78,14 @@
                         currentAdlib.textContent = '';
                     }
                 });
-            });
+            } catch (error) {
+                console.error('Error loading adlibs:', error);
+                document.getElementById('current-adlib').textContent = 'Error loading adlibs: ' + error.message;
+            }
+        }
+
+        // Initialize when page loads
+        initializeVisualizer();
     </script>
 </body>
 </html>
