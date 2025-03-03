@@ -11,6 +11,7 @@ dependencies = [
     "openai>=1.64.0",
     "opencv-python>=4.11.0.86",
     "pydantic>=2.10.6",
+    "pytesseract>=0.3.13",
     "python-dotenv>=1.0.1",
     "together>=1.4.1",
 ]
