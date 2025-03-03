@@ -1,4 +1,5 @@
-from src.vision.vision_paper_detector import main as vision_main
+from src.vision.vision_paper_detector import main as traditional_vision_main
 
 if __name__ == "__main__":
-    vision_main()
+    traditional_vision_main()
+    # llm_vision_main()
