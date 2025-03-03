@@ -49,3 +49,7 @@ logs/
 scratchpad.md
 test_output/
 scratch.py
+
+.cursorrules
+claude.md
+uv.lock
