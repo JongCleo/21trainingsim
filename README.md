@@ -1,32 +1,17 @@
-## Scaffolding
+# 21 Savage Rhythm Game
 
-```bash
-uv init
-uv venv
-uv add fastapi pydantic uvicorn python-dotenv loguru openai
-uv add --dev pytest
-# Activate the virtual environment
-source .venv/bin/activate  # On Unix/macOS
+## Project Overview
 
-# write [tool.pytest.ini_options] to pyproject.toml for testing setup
-echo "[tool.pytest.ini_options]" >> pyproject.toml
-echo "pythonpath = \"src\"" >> pyproject.toml
+A rhythm game that detects 21 Savage ad-libs from text shown to a camera. The game displays a scrolling timeline with markers indicating when ad-libs should appear. (think like dance-dance revolution) Players hold up papers with the correct ad-lib phrases at the right time.
 
-# this is for testing setup
-echo "asyncio_mode = \"auto\"" >> pyproject.toml
-echo "asyncio_default_fixture_loop_scope = \"function\"" >> pyproject.toml
+## Code Structure
 
-# this is for ruff setup
-echo "[tool.ruff]" >> pyproject.toml
-echo "select = [\"I\"]" >> pyproject.toml
-echo "line-length = 88" >> pyproject.toml
-echo "[tool.ruff.isort]" >> pyproject.toml
-echo "combine-as-imports = true" >> pyproject.toml
-echo "force-wrap-aliases = true" >> pyproject.toml
+- `vision_paper_detector.py`: AI-based paper and text detection using multimodal models
+- `process_adlibs.py`: Processes LRC lyrics files to extract ad-libs and timestamps
+- `serve.py`: Local HTTP server for the visualization interface
+- `viz.html`: Web-based visualization showing the ad-libs timeline with audio
 
-```
-
-## Installation
+## Setup
 
 This project uses [`UV`](https://docs.astral.sh/uv/pip/compile/#locking-requirements) and `poetry` for dependency management. To set up the environment and install dependencies:
 
@@ -62,12 +47,6 @@ To remove a package, run:
 
 ```bash
 uv remove <package_name>
-```
-
-### Setup
-
-```bash
-./setup.sh
 ```
 
 ### Debugging
