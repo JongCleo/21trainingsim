@@ -1,5 +1,9 @@
-from src.vision.vision_paper_detector import main as traditional_vision_main
+from dotenv import load_dotenv
+
+from src.vision.vision_paper_detector_moondream import main as moondream_vision_main
+
+load_dotenv()
 
 if __name__ == "__main__":
-    traditional_vision_main()
-    # llm_vision_main()
+    # Use Moondream detector
+    moondream_vision_main()
