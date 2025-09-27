@@ -1,6 +1,6 @@
 from dotenv import load_dotenv
 
-from src.vision.vision_paper_detector_moondream import main as moondream_vision_main
+from src.vision_paper_detector_moondream import main as moondream_vision_main
 
 load_dotenv()
 
