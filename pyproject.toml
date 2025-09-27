@@ -5,11 +5,8 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
-    "instructor>=1.7.2",
     "loguru>=0.7.3",
-    "mediapipe>=0.10.14",
     "numpy>=2.2.3",
-    "openai>=1.64.0",
     "opencv-python>=4.11.0.86",
     "pydantic>=2.10.6",
     "pytesseract>=0.3.13",
