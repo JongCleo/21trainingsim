@@ -54,3 +54,4 @@ scratch.py
 claude.md
 uv.lock
 debug_*.jpg
+.claude/scratchpad/
